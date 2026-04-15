@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Emoji Mood Globe</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0b0f1a;
+      color: white;
+      text-align: center;
+    }
+
+    #map {
+      height: 80vh;
+      width: 100%;
+    }
+
+    .emoji-bar {
+      padding: 10px;
+    }
+
+    .emoji {
+      font-size: 35px;
+      margin: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>🌍 Emoji Mood Globe</h2>
+
+<div class="emoji-bar">
+  <span class="emoji" onclick="sendMood('😄')">😄</span>
+  <span class="emoji" onclick="sendMood('😐')">😐</span>
+  <span class="emoji" onclick="sendMood('😴')">😴</span>
+  <span class="emoji" onclick="sendMood('😡')">😡</span>
+  <span class="emoji" onclick="sendMood('🔥')">🔥</span>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+  // Create real world map
+  const map = L.map('map').setView([20, 0], 2);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  function randomLocation() {
+    return {
+      lat: (Math.random() * 140) - 70,
+      lng: (Math.random() * 360) - 180
+    };
+  }
+
+  function sendMood(emoji) {
+    const pos = randomLocation();
+
+    L.marker([pos.lat, pos.lng])
+      .addTo(map)
+      .bindPopup(emoji)
+      .openPopup();
+  }
+</script>
+
+</body>
+</html>
